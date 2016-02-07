@@ -1,0 +1,13 @@
+<h1>Comments</h1>
+
+<p><%= link_to "Create Comment", new_comment_path %></p>
+
+<% if @comments %>
+<ul>
+  <% @comments.each do |comment| %>
+  <li>
+    <h2><%= link_to "Comment ID: #{comment.id}", comment_path(comment) %></h2>
+  </li>
+  <% end %>
+</ul>
+<% end %>

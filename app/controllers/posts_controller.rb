@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-
+  before_action :find_post, only: [:show, :edit, :destroy, :update]
   # ******* Create
 
   def new
@@ -7,12 +7,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    post_params = params.require(:post).permit(:title,:body)
+
     @post = Post.new post_params
 
     if @post.save
-      redirect_to post_path(@post)
+      redirect_to post_path(@post), notice: "Post Created"
     else
+      flash[:alert] = "Post failed to create"
       render :new
     end
   end
@@ -30,16 +31,13 @@ class PostsController < ApplicationController
   # ******* Update
 
   def edit
-    @post = Post.find params[:id]
   end
 
   def update
-    @post = Post.find params[:id]
-    post_params = params.require(:post).permit(:title, :body)
-
     if @post.update post_params
-      redirect_to post_path(@post)
+      redirect_to post_path(@post), notice: "Post Updated"
     else
+      flash[:alert] = "Post Failed to update"
       render :edit
     end
   end
@@ -47,9 +45,17 @@ class PostsController < ApplicationController
   # ******* Destroy
 
   def destroy
-    @post = Post.find params[:id]
     @post.destroy
+    redirect_to posts_path, alert: "Post Deleted"
+  end
 
-    redirect_to posts_path
+  private
+
+  def post_params
+    params.require(:post).permit(:title, :body)
+  end
+
+  def find_post
+    @post = Post.find params[:id]
   end
 end

@@ -1,0 +1,10 @@
+<h2>Comment ID: <%= @comment.id %></h2>
+<p><%= @comment.body %></p>
+
+<p><%= link_to "Edit Comment", edit_comment_path(@comment) %></p>
+<p><%= link_to "Back to Comments", comments_path %></p>
+<hr>
+<p><%= link_to "Delete",
+                comment_path(@comment),
+                method: :delete,
+                data: {confirm: "Are you sure?"} %></p>
