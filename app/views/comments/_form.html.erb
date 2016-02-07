@@ -1,0 +1,13 @@
+<ul>
+  <% @comment.errors.full_messages.each do |comment| %>
+    <li><%= comment %></li>
+  <% end %>
+</ul>
+
+<%= form_for @comment do |f| %>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <%= f.submit %>
+<% end %>
