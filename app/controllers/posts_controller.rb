@@ -46,7 +46,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirect_to posts_path, alert: "Post Deleted"
+    redirect_to posts_path, notice: "Post Deleted"
   end
 
   private
