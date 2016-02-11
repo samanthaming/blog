@@ -1,11 +1,37 @@
 <h1><%= @post.title %></h1>
 <p><%= @post.body %></p>
 
-<div><%= link_to "Edit Post", edit_post_path %></div>
-<div><%= link_to "Back to Posts", posts_path %></div>
+<div>
+  <%= link_to "Edit Post", edit_post_path %> |
+  <%= link_to "Delete Post",
+  post_path(@post),
+  method: :delete,
+  data: {confirm: "Are you sure?"}  %>
+
+</div>
+
+<h2>Comments</h2>
+
+
+<h3>Create Comment</h3>
+<%= form_for [@post, @comment] do |f| %>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <%= f.submit %>
+<% end %>
+
+<ul>
+  <% @post.comments.each do |comment| %>
+    <li>
+      <%= comment.body %>
+      <%= link_to "delete", post_comment_path(@post, comment),
+                            method: :delete,
+                            data: {confirm: "are you sure?"} %>
+    </li>
+  <% end %>
+</ul>
 
 <hr>
-<div><%= link_to "Delete Post",
-                  post_path(@post),
-                  method: :delete,
-                  data: {confirm: "Are you sure?"}  %></div>
+<div><%= link_to "Back to Posts", posts_path %></div>

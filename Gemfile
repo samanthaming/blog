@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem "faker", "~> 1.6.1"
-
+gem 'kaminari'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
@@ -44,6 +44,9 @@ group :development, :test do
 end
 
 group :development do
+  gem "awesome_print"
+  gem "interactive_editor"
+  gem "hirb"
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 

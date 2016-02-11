@@ -21,11 +21,12 @@ class PostsController < ApplicationController
   # ******* Read
 
   def index
-    @posts = Post.order("created_at DESC")
+    @posts = Post.order("created_at DESC").page params[:page]
   end
 
   def show
-    @post = Post.find params[:id]
+    # @post = Post.find params[:id]
+    @comment = Comment.new
   end
 
   # ******* Update
