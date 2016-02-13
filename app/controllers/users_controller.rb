@@ -48,6 +48,9 @@ class UsersController < ApplicationController
 
     if @user.authenticate(params[:user][:current_password])
       render json: params
+
+      ##
+
       # sign_in(@user)
       # redirect_to root_path, notice: "Signed in"
     else
