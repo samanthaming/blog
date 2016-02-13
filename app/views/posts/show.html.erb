@@ -13,14 +13,13 @@
 
 </div>
 
+<hr>
 <h2>Comments</h2>
 
-
-<h3>Create Comment</h3>
 <%= form_for [@post, @comment] do |f| %>
   <div>
-    <%= f.label :body %>
-    <%= f.text_area :body %>
+    <%= f.label :body, "Create Comment" %>
+    <div><%= f.text_area :body %></div>
   </div>
   <%= f.submit %>
 <% end %>
@@ -28,10 +27,17 @@
 <ul>
   <% @post.comments.each do |comment| %>
     <li>
+      <!-- How do I refactor this?  -->
+      <strong><%= "#{comment.user.first_name}:" if comment.user %></strong>
+
       <%= comment.body %>
+
+      <% if can? :destroy, comment %>
       <%= link_to "delete", post_comment_path(@post, comment),
                             method: :delete,
                             data: {confirm: "are you sure?"} %>
+      <% end %>
+
     </li>
   <% end %>
 </ul>

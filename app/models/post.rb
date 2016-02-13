@@ -23,4 +23,6 @@ class Post < ActiveRecord::Base
     category.title if category
   end
 
+
+
 end

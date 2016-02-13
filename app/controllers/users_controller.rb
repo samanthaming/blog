@@ -55,10 +55,8 @@ class UsersController < ApplicationController
       render "users/edit_password"
     end
 
-
-
-
   end
+
 
   private
 
