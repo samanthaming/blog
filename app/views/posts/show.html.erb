@@ -1,17 +1,21 @@
 <h1><%= @post.title %></h1>
 
+<!-- Need to refactor this... -->
+<h4>Posted by: <%= user_full_name if @post.user %></h4>
+
 <h4>Category: <%= @post.category_title %></h4>
 
 <p><%= @post.body %></p>
 
-<div>
-  <%= link_to "Edit Post", edit_post_path %> |
-  <%= link_to "Delete Post",
-  post_path(@post),
-  method: :delete,
-  data: {confirm: "Are you sure?"}  %>
-
-</div>
+<% if can? :manage, @post %>
+  <div>
+    <%= link_to "Edit Post", edit_post_path %> |
+    <%= link_to "Delete Post",
+    post_path(@post),
+    method: :delete,
+    data: {confirm: "Are you sure?"}  %>
+  </div>
+<% end %>
 
 <hr>
 <h2>Comments</h2>
