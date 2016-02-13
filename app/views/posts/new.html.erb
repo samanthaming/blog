@@ -1,21 +1,3 @@
 <h1>New Post</h1>
 
-<ul>
-  <% @post.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-  <% end %>
-</ul>
-
-<div class="form">
-<%= form_for @post do |f| %>
-  <div>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
-  <div>
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-  </div>
-  <%= f.submit %>
-<% end %>
-</div>
+<%= render "form" %>
