@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
   before_action :find_post, only: [:show, :edit, :destroy, :update]
+  before_action :authenticate_user!, except: [:index, :show]
+
   # ******* Create
 
   def new
@@ -21,7 +23,7 @@ class PostsController < ApplicationController
   # ******* Read
 
   def index
-    @posts = Post.order("created_at DESC").page params[:page]
+    @posts = Post.order("created_at DESC").page(params[:page])
   end
 
   def show
@@ -53,7 +55,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :category_id)
   end
 
   def find_post

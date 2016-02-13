@@ -11,3 +11,7 @@
   Post.create title:  Faker::Hipster.sentence(4),
               body:   Faker::Hipster.paragraph
 end
+
+%w(Science Health Beauty Pets Sports Fun).each do |cat|
+  Category.create(title: cat)
+end

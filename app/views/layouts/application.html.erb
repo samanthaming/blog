@@ -11,9 +11,20 @@
   <%= link_to "Home", root_path %>
   <%= link_to "About", about_path  %>
   <%= link_to "Posts", posts_path  %>
+
+  <% if user_signed_in? %>
+    <%= link_to user_first_name, user_path(current_user) %>
+    <%= link_to "Logout", sessions_path,
+          method: :delete,
+          data: {confirm: "Are you sure you want to logout?"} %>
+  <% else %>
+    <%= link_to "Sign up", new_user_path %>
+    <%= link_to "Login", new_session_path %>
+  <% end %>
+
 </div>
 
-<div class="notice">
+<div class="flash-message">
   <%= alert || notice %>
 </div>
 <%= yield %>
