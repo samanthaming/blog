@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def create
 
-    @user = User.new user_params(:password, :password_confirmation)
+    @user = User.new user_params
 
     if @user.save
       sign_in(@user)
@@ -44,17 +44,14 @@ class UsersController < ApplicationController
   def update_password
     @user = current_user
 
-    password_params = params.require(:user).permit(:current_password, :password, :password_confirmation)
-
-    if @user.authenticate(params[:user][:current_password])
-      render json: params
-
-      ##
-
-      # sign_in(@user)
-      # redirect_to root_path, notice: "Signed in"
+    if (
+          @user.authenticate(params[:user][:current_password]) &&
+          passwords_match?(params[:user][:password], params[:user][:password_confirmation]) &&
+          @user.update(user_params)
+      )
+      redirect_to edit_password_path, notice: "Password updated"
     else
-      flash[:alert] = "Incorrect Password"
+      flash[:alert] = "Wrong Credentials"
       render "users/edit_password"
     end
 
@@ -64,14 +61,16 @@ class UsersController < ApplicationController
   private
 
 
-  def user_params(*fields)
-    array = [ :first_name, :last_name, :email ]
-    fields.each { |f| array << f }
-    params.require(:user).permit(array)
-  end
-
   def find_user
     @user ||= User.find params[:id]
+  end
+
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+  end
+
+  def passwords_match?(password, confirm_password)
+    password == confirm_password ? true : false
   end
 
 end

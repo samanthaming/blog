@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :find_post, only: [:show, :edit, :destroy, :update]
   before_action :authenticate_user, except: [:index, :show]
+  before_action :find_post, only: [:show, :edit, :destroy, :update]
   before_action :authorize_user, only: [:edit, :destroy, :update]
   # ******* Create
 
