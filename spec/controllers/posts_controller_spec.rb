@@ -137,7 +137,6 @@ RSpec.describe PostsController, type: :controller do
 
   describe "#update" do
 
-
     context 'when user is signed in and owner of that post' do
 
       before do

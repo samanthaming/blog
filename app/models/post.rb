@@ -1,7 +1,10 @@
 class Post < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
+
   has_many :comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_posts, through: :favorites, source: :user
 
   validates :title, presence: true,
                     uniqueness: {case_sensitive: false,
@@ -24,6 +27,8 @@ class Post < ActiveRecord::Base
     category.title if category
   end
 
-
+  def favorite_for(user)
+    favorites.find_by_user_id user
+  end
 
 end
