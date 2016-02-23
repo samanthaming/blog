@@ -1,25 +1,28 @@
 <h1><%= @post.title %></h1>
 
 <!-- Need to refactor this... -->
-<h4>Posted by: <%= user_full_name if @post.user %></h4>
+<h4>Posted by: <%= @post.user.first_name if @post.user %></h4>
 
 <h4>Category: <%= @post.category_title %></h4>
 
 
 <strong>(<%= @post.favorites.count %> Favorites)</strong>
 <% favorite = @post.favorite_for current_user %>
-<% if favorite %>
-  <%= link_to "Un-Like", post_favorite_path(@post, favorite), method: :delete %>
-<% else %>
-  <%= link_to "Like", post_favorites_path(@post), method: :post %>
-<% end %>
+
+  <% if favorite %>
+    <%= link_to "Un-Like", post_favorite_path(@post, favorite), method: :delete %>
+  <% else %>
+    <% unless is_author_of?(@post) %>
+      <%= link_to "Like", post_favorites_path(@post), method: :post %>
+    <% end %>
+  <% end %>
 
 
 <p><%= @post.body %></p>
 
 <% if can? :manage, @post %>
   <div>
-    <%= link_to "Edit Post", edit_post_path %> |
+    <%= link_to "Edit Post", edit_post_path(@post) %> |
     <%= link_to "Delete Post",
     post_path(@post),
     method: :delete,
@@ -30,13 +33,17 @@
 <hr>
 <h2>Comments</h2>
 
-<%= form_for [@post, @comment] do |f| %>
-  <div>
-    <%= f.label :body, "Create Comment" %>
-    <div><%= f.text_area :body %></div>
-  </div>
-  <%= f.submit %>
+<% if can? :create, @comment %>
+  <%= form_for [@post, @comment] do |f| %>
+    <div>
+      <%= f.label :body, "Create Comment" %>
+      <div><%= f.text_area :body %></div>
+    </div>
+    <%= f.submit %>
+  <% end %>
 <% end %>
+
+
 
 <ul>
   <% @post.comments.each do |comment| %>

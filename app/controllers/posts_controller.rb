@@ -30,6 +30,9 @@ class PostsController < ApplicationController
   def show
     # @post = Post.find params[:id]
     @comment = Comment.new
+
+    # @comment = current_user.comments.build
+    # ..same as --> @comment = Comment.new(user: current_user)
   end
 
   # ******* Update
@@ -69,7 +72,7 @@ class PostsController < ApplicationController
     end
   end
 
-
+  
 
 
 end

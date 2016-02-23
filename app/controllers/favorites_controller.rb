@@ -7,6 +7,11 @@ class FavoritesController < ApplicationController
 
   def create
     po = Post.find params[:post_id]
+
+    if is_author_of? po
+      return redirect_to po, notice: "Access Denied"
+    end
+
     favorite = Favorite.new(post: po, user: current_user)
 
     if favorite.save
@@ -20,6 +25,8 @@ class FavoritesController < ApplicationController
     po = Post.find params[:post_id]
     favorite = current_user.favorites.find params[:id]
     favorite.destroy
-    redirect_to post_path(po), notice: "Post deleted from favorites"
+    redirect_to post_path(po), notice: "Un-favorited"
   end
+
+
 end

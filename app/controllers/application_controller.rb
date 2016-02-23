@@ -21,4 +21,17 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:alert] = exception.message
+    redirect_to root_path
+  end
+
+  def is_author_of? (model, user=current_user)
+    if model.has_attribute? :user_id
+      model.user_id == current_user.id ? true : false
+    else
+      false
+    end
+  end
+  helper_method :is_author_of?
 end

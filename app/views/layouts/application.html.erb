@@ -13,7 +13,7 @@
   <%= link_to "Posts", posts_path  %>
 
   <% if user_signed_in? %>
-    <%= link_to user_first_name, user_path(current_user) %>
+    <%= link_to current_user_first_name, user_path(current_user) %>
     <%= link_to "Favorites", favorites_path %>
     <%= link_to "Logout", sessions_path,
           method: :delete,

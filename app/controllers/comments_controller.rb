@@ -1,5 +1,7 @@
 class CommentsController < ApplicationController
-  before_action :authorize_user, only: [:update, :destory]
+  # before_action :authorize_user, only: [:create, :update, :destory]
+  authorize_resource
+  # load_and_authorize_resource :only => [:destroy]
 
   def create
     @post = Post.find params[:post_id]
@@ -17,6 +19,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find params[:id]
+    authorize! :destroy, @comment
     @comment.destroy
     redirect_to post_path(params[:post_id]), notice: "Comment deleted!"
   end
@@ -32,8 +35,5 @@ class CommentsController < ApplicationController
       redirect_to root_path, alert: "Access Denied"
     end
   end
-
-
-
 
 end

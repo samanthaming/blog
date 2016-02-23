@@ -13,7 +13,7 @@ class Post < ActiveRecord::Base
 
   validates :body, presence: true
 
-  paginates_per 5
+  paginates_per 10
 
 
   # Write tests for your `Post` model in your Blog project.  Add tests for the following:
