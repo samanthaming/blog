@@ -1,0 +1,14 @@
+<li id="<%= dom_id(comment) %>">
+  <!-- How do I refactor this?  -->
+  <strong><%= "#{comment.user.first_name}:" if comment.user %></strong>
+
+  <%= comment.body %>
+
+  <% if can? :destroy, comment %>
+  <%= link_to "delete", post_comment_path(@post, comment),
+                        method: :delete,
+                        remote: true,
+                        data: {confirm: "are you sure?"} %>
+  <% end %>
+
+</li>

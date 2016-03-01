@@ -9,3 +9,9 @@ body{
 .flash-message{
   margin:10px 0;
 }
+
+.field_with_errors {
+  textarea {
+    border: 1px solid red;
+  }
+}

@@ -25,37 +25,19 @@
 <% end %>
 
 <hr>
+
+<!-- Comment -->
 <h2>Comments</h2>
+<div id="comment-form">
+  <%= render "/comments/form" %>
+</div>
 
-<% if can? :create, @comment %>
-  <%= form_for [@post, @comment] do |f| %>
-    <div>
-      <%= f.label :body, "Create Comment" %>
-      <div><%= f.text_area :body %></div>
-    </div>
-    <%= f.submit %>
-  <% end %>
-<% end %>
-
-
-
-<ul>
-  <% @post.comments.each do |comment| %>
-    <li>
-      <!-- How do I refactor this?  -->
-      <strong><%= "#{comment.user.first_name}:" if comment.user %></strong>
-
-      <%= comment.body %>
-
-      <% if can? :destroy, comment %>
-      <%= link_to "delete", post_comment_path(@post, comment),
-                            method: :delete,
-                            data: {confirm: "are you sure?"} %>
-      <% end %>
-
-    </li>
+<ul id="comment-list">
+  <% @post.comments.order("created_at DESC").each do |com| %>
+    <%= render "/comments/comment", comment: com %>
   <% end %>
 </ul>
+
 
 <hr>
 <div><%= link_to "Back to Posts", posts_path %></div>

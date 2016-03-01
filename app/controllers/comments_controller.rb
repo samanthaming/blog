@@ -9,10 +9,14 @@ class CommentsController < ApplicationController
     @comment.post = @post
     @comment.user = current_user
 
-    if @comment.save
-      redirect_to post_path(@post), notice: "Comment created!"
-    else
-      render "/posts/show"
+    respond_to do |format|
+      if @comment.save
+        format.html {redirect_to post_path(@post), notice: "Comment created!"}
+        format.js { render :create_success }
+      else
+        format.html {render "/posts/show"}
+        format.js { render :create_failure }
+      end
     end
   end
 
@@ -21,7 +25,11 @@ class CommentsController < ApplicationController
     @comment = Comment.find params[:id]
     authorize! :destroy, @comment
     @comment.destroy
-    redirect_to post_path(params[:post_id]), notice: "Comment deleted!"
+
+    respond_to do |format|
+      format.html {redirect_to post_path(params[:post_id]), notice: "Comment deleted!"}
+      format.js { render } # this renders /views/comments/destroy.js.erb
+    end
   end
 
   private
