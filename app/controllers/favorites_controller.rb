@@ -6,26 +6,34 @@ class FavoritesController < ApplicationController
   end
 
   def create
-    po = Post.find params[:post_id]
+    @post = Post.find params[:post_id]
 
-    if is_author_of? po
-      return redirect_to po, notice: "Access Denied"
+    if is_author_of? @post
+      return redirect_to @post, notice: "Access Denied"
     end
 
-    favorite = Favorite.new(post: po, user: current_user)
+    favorite = Favorite.new(post: @post, user: current_user)
 
-    if favorite.save
-      redirect_to po, notice: "Added Favorite"
-    else
-      redirect_to po, alert: "Error, Can't Favorite"
+    respond_to do |format|
+      if favorite.save
+        format.html{ redirect_to @post, notice: "Added Favorite" }
+        format.js { render :success_favorite }
+      else
+        format.html { redirect_to @post, alert: "Error, Can't Favorite" }
+        format.js { render :unsuccess_favorite }
+      end
     end
   end
 
   def destroy
-    po = Post.find params[:post_id]
+    @post = Post.find params[:post_id]
     favorite = current_user.favorites.find params[:id]
     favorite.destroy
-    redirect_to post_path(po), notice: "Un-favorited"
+
+    respond_to do |format|
+      format.html {redirect_to post_path(@post), notice: "Un-favorited"}
+      format.js { render } # this will render favorites/destroy.js.erb
+    end
   end
 
 

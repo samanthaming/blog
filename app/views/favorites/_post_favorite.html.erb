@@ -1,0 +1,14 @@
+<strong>(<%= @post.favorites.count %> Favorites)</strong>
+<% favorite = @post.favorite_for current_user %>
+
+  <% if favorite %>
+    <%= link_to "Un-Like", post_favorite_path(@post, favorite),
+            remote: true,
+            method: :delete %>
+  <% else %>
+    <% unless is_author_of?(@post) %>
+      <%= link_to "Like", post_favorites_path(@post),
+            remote: true,
+            method: :post %>
+    <% end %>
+  <% end %>

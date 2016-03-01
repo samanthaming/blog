@@ -6,16 +6,10 @@
 <h4>Category: <%= @post.category_title %></h4>
 
 
-<strong>(<%= @post.favorites.count %> Favorites)</strong>
-<% favorite = @post.favorite_for current_user %>
-
-  <% if favorite %>
-    <%= link_to "Un-Like", post_favorite_path(@post, favorite), method: :delete %>
-  <% else %>
-    <% unless is_author_of?(@post) %>
-      <%= link_to "Like", post_favorites_path(@post), method: :post %>
-    <% end %>
-  <% end %>
+<!-- Favorite -->
+<div id="post-favorite">
+  <%= render "/favorites/post_favorite" %>
+</div>
 
 
 <p><%= @post.body %></p>
