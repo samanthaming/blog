@@ -4,6 +4,7 @@ gem "faker", "~> 1.6.1"
 gem 'kaminari'
 gem 'cancancan', '~> 1.10'
 gem 'rails_12factor', group: :production
+gem 'rack-cors', :require => 'rack/cors'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'

@@ -24,7 +24,13 @@ class PostsController < ApplicationController
   # ******* Read
 
   def index
+  
     @posts = Post.order("created_at DESC").page(params[:page])
+
+    respond_to do |format|
+      format.html { render }
+      format.json { render json: @posts.select(:id, :title, :body)}
+    end
   end
 
   def show
@@ -33,6 +39,11 @@ class PostsController < ApplicationController
 
     # @comment = current_user.comments.build
     # ..same as --> @comment = Comment.new(user: current_user)
+
+    respond_to do |format|
+      format.html {render}
+      format.json { render json: @post }
+    end
   end
 
   # ******* Update
@@ -72,7 +83,7 @@ class PostsController < ApplicationController
     end
   end
 
-  
+
 
 
 end

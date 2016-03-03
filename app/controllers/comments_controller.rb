@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   # before_action :authorize_user, only: [:create, :update, :destory]
-  authorize_resource
+  authorize_resource except: [:index]
   # load_and_authorize_resource :only => [:destroy]
 
   def create
@@ -20,6 +20,10 @@ class CommentsController < ApplicationController
     end
   end
 
+  def index
+    @post = Post.find params[:post_id]
+    render json: @post.comments
+  end
 
   def destroy
     @comment = Comment.find params[:id]
